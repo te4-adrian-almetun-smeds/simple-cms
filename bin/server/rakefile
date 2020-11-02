@@ -2,13 +2,17 @@
 
 require 'rake'
 require 'rspec/core/rake_task'
-
+require_relative './db/seeder'
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :test
 
 task :run do
   system('rackup rerun')
+end
+
+task :seed do
+  Seeder.seed!
 end
 
 # These are yet to be actually implemented

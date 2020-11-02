@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-# Handles application wide integration with a database
-class ApplicationController
+require 'sequel'
+
+# Handles the applications wide integration with the database
+class DatabaseController
   # Configuration
   DB = if ENV['RACK_ENV'] == 'production'
          Sequel.connect(ENV['DATABASE_URL'])
@@ -14,15 +16,18 @@ class ApplicationController
   # Params - Hash
   #
   # Returns instance of class with instance_variables set according to params
-  def initialize(params)
-    raise 'No data provided' unless params.is_a? Hash
+  def initialize(params = {})
+    raise 'Wrong data provided' unless params.is_a? Hash
 
     params = params.to_h.stringify_keys
+    set_instance_variable_params(params)
+    set_instance_variable_columns(params)
+  end
 
-    params.each do |key, value|
-      instance_variable_set("@#{key}", value)
-      singleton_class.send(:attr_accessor, key.to_s)
-    end
+  # rubocop:disable Naming/AccessorMethodName
+  def set_instance_variable_columns(params)
+    return if self.class.columns.nil?
+
     self.class.columns.each do |x|
       unless params.include?(x.to_s)
         instance_variable_set("@#{x.to_s.gsub(':', '')}", nil)
@@ -30,6 +35,14 @@ class ApplicationController
       end
     end
   end
+
+  def set_instance_variable_params(params)
+    params.each do |key, value|
+      instance_variable_set("@#{key}", value)
+      singleton_class.send(:attr_accessor, key.to_s)
+    end
+  end
+  # rubocop:enable Naming/AccessorMethodName
 
   #############################################################
   ##### Getter/Setters configuration ####
@@ -58,11 +71,21 @@ class ApplicationController
     attr_reader :columns
   end
 
-  def select_dataset(table)
+  def self.select_dataset(table = nil)
     if !table.nil?
       DB[:"#{table}"]
     elsif !self.table.nil?
       DB[:"#{self.table}"]
+    else
+      DB[:"#{to_s.downcase}"]
+    end
+  end
+
+  def select_dataset(table = nil)
+    if !table.nil?
+      DB[:"#{table}"]
+    elsif !self.class.table.nil?
+      DB[:"#{self.class.table}"]
     else
       DB[:"#{to_s.downcase}"]
     end
@@ -78,9 +101,9 @@ class ApplicationController
   # table - String (Optional table)
   #
   # Returns a array of objects
-  def self.where(conditions, table = nil)
+  def self.fetch_where(conditions, table = nil)
     dataset = select_dataset(table)
-    dataset.where(conditions)
+    dataset.where(conditions).all.objectify(self)
   end
 
   # Initializes Sequel instance for provided table
@@ -96,10 +119,10 @@ class ApplicationController
   #
   # table - String (Optional table)
   #
-  # Returns Array of elements from database
+  # Returns Array of objects from database
   def self.fetch_all(table = nil)
     dataset = select_dataset(table)
-    dataset.all
+    dataset.all.objectify(self)
   end
 
   # Saves a instance to the database
@@ -168,6 +191,7 @@ end
 # Provides additional functionality to Arrays
 class Array
   def objectify(clazz)
+    clazz = clazz.to_s if clazz.class == Class
     objects = []
     clazzer = if Array.class_exists?(clazz)
                 Object.const_get(clazz)
