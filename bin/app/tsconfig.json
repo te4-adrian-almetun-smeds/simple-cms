@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -37,5 +36,14 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "strict": true,              
+  "noImplicitAny": true,       
+  "strictNullChecks": true,             
+  "strictFunctionTypes": true,   
+  "noImplicitThis": true,
+  /* Additional Checks */
+  "noUnusedLocals": true,              
+  "noImplicitReturns": true,           
+  "noFallthroughCasesInSwitch": true
 }
