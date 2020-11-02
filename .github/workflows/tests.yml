@@ -35,7 +35,7 @@ jobs:
         uses: github/super-linter@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RUBY_CONFIG_FILE: .rubocop.yml
+          RUBY_CONFIG_FILE: ./bin/server/.rubocop.yml
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_HTML: false
