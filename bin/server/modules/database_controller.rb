@@ -101,9 +101,13 @@ class DatabaseController
   # table - String (Optional table)
   #
   # Returns a array of objects
-  def self.fetch_where(conditions, table = nil)
+  def self.fetch_where(conditions, object = true, table = nil)
     dataset = select_dataset(table)
-    dataset.where(conditions).all.objectify(self)
+    if object
+      dataset.where(conditions).all.objectify(self)
+    else
+      dataset.where(conditions).all
+    end
   end
 
   # Initializes Sequel instance for provided table
@@ -120,9 +124,13 @@ class DatabaseController
   # table - String (Optional table)
   #
   # Returns Array of objects from database
-  def self.fetch_all(table = nil)
+  def self.fetch_all(object = true, table = nil)
     dataset = select_dataset(table)
-    dataset.all.objectify(self)
+    if object
+      dataset.all.objectify(self)
+    else
+      dataset.all
+    end
   end
 
   def delete

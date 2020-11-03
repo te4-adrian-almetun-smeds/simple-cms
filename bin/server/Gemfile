@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 gem 'dotenv'
 gem 'sequel'
 gem 'sinatra'
+gem 'sinatra-namespace'
+
 gem 'sqlite3'
 
 gem 'minitest'
