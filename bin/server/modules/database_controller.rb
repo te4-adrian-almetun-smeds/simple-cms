@@ -125,6 +125,10 @@ class DatabaseController
     dataset.all.objectify(self)
   end
 
+  def delete
+    self.class.fetch_dataset.where(id: @id).delete
+  end
+
   # Saves a instance to the database
   #
   # table - String (Optional table)

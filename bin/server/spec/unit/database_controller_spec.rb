@@ -55,6 +55,13 @@ RSpec.describe 'DatabaseController:' do
                                                                         @register_time @id @status]
       expect(Temp.fetch_all.length).to eq 2
     end
+
+    it 'the controller should be able to delete a databse entry' do
+      temp = Temp.fetch_where(id: 2)
+      expect(temp.first.class).to eq Temp
+      temp.first.delete
+      expect(Temp.fetch_where(id: 2)).to eq []
+    end
   end
   # rubocop:enable Metrics/BlockLength
 end
