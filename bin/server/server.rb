@@ -3,6 +3,7 @@
 require 'dotenv'
 require 'sinatra'
 require 'sinatra/namespace'
+require 'sinatra/cross_origin'
 
 require_relative 'modules/application_controller'
 
@@ -12,8 +13,14 @@ Dotenv.load
 class Server < Sinatra::Base
   register Sinatra::Namespace
   enable :sessions
+  enable :cross_origin
 
   namespace '/api' do
+    before do
+      content_type :json
+      headers 'Access-Control-Allow-Origin' => '*',
+              'Access-Control-Allow-Methods' => %w[PUT DELETE GET POST]
+    end
     # helpers APIHelpers
     # before  { authenticate unless request.path_info == '/api/login' }
 
@@ -23,7 +30,7 @@ class Server < Sinatra::Base
       end
 
       post '/?' do
-        temp = Blogs.new(params)
+        temp = Blogs.new(JSON.parse(request.body.read))
         temp.save
       end
 
@@ -47,7 +54,7 @@ class Server < Sinatra::Base
         end
 
         post '/?' do
-          temp = Posts.new(params)
+          temp = Posts.new(JSON.parse(request.body.read))
           temp.save
         end
 
@@ -74,7 +81,7 @@ class Server < Sinatra::Base
       end
 
       post '/?' do
-        temp = Users.new(params)
+        temp = Users.new(JSON.parse(request.body.read))
         temp.save
       end
 
