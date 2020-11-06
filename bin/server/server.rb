@@ -19,10 +19,8 @@ class Server < Sinatra::Base
     before do
       content_type :json
       headers 'Access-Control-Allow-Origin' => '*',
-              'Access-Control-Allow-Methods' => %w[PUT DELETE GET POST]
+      'Access-Control-Allow-Methods' => '*'
     end
-    # helpers APIHelpers
-    # before  { authenticate unless request.path_info == '/api/login' }
 
     namespace '/blogs' do
       get '/?' do
@@ -50,7 +48,7 @@ class Server < Sinatra::Base
 
       namespace '/:blog_id/posts' do
         get '/?' do
-          Posts.fetch_where({ blog_id: params[:blog_id] }, false).to_json
+          Posts.fetch_where({ blogId: params[:blog_id] }, false).to_json
         end
 
         post '/?' do
@@ -59,7 +57,7 @@ class Server < Sinatra::Base
         end
 
         get '/:post_name/?' do
-          Posts.fetch_where({ post_name: params[:post_name], blog_id: params[:blog_id] }, false).to_json
+          Posts.fetch_where({ postName: params[:pos_name], blogId: params[:blog_id] }, false).to_json
         end
 
         put '/:post_name/?' do

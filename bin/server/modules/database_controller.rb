@@ -148,6 +148,7 @@ class DatabaseController
     instance_variables.map { |q| hash[q.to_s.gsub('@', '')] = instance_variable_get(q) }
 
     dataset = select_dataset(table)
+    hash['body'] = hash['body'].to_s if hash['body']
 
     if instance_variables.include?(:@id) && id.is_a?(Integer)
       # Object has a id and thereby is only updated

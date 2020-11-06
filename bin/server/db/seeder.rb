@@ -36,19 +36,19 @@ class Seeder
             "id" INTEGER PRIMARY KEY,
             "header"	TEXT NOT NULL,
             "body"	TEXT,
-            "post_status"	TEXT NOT NULL,
-            "author_id" INTEGER NOT NULL,
-            "blog_id" INTEGER NOT NULL,
-            "post_parent" INTEGER,
-            "unix_time" INTEGER,
-            "post_name" TEXT UNIQE NOT NULL
+            "postStatus"	TEXT NOT NULL,
+            "authorId" INTEGER NOT NULL,
+            "blogId" INTEGER NOT NULL,
+            "postParent" INTEGER,
+            "time" INTEGER,
+            "postName" TEXT UNIQE NOT NULL
         );'
     db.execute 'CREATE TABLE "users" (
             "id" INTEGER PRIMARY KEY,
             "username"	TEXT NOT NULL,
             "email"	TEXT NOT NULL,
             "password" TEXT NOT NULL,
-            "register_time" INTEGER NOT NULL,
+            "registerTime" INTEGER NOT NULL,
             "status" INTEGER
         );'
     db.execute 'CREATE TABLE "blogs" (
