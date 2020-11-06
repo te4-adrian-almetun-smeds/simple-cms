@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run all unit tests
-      working-directory: ./bin/app
+      working-directory: ./bin/frontend
       run: |
         npm install
         npm run test:unit
