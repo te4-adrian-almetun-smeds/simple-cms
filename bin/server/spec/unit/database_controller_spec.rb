@@ -6,7 +6,7 @@ require_relative '../../db/seeder'
 
 # Temp class
 class Temp < DatabaseController
-  set_columns :username, :password, :email, :register_time, :id
+  set_columns :username, :password, :email, :time, :id
   set_table :users
 end
 
