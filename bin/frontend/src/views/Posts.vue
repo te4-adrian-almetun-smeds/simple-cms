@@ -1,20 +1,29 @@
 <template>
   <div>
-    <h1>Posts</h1>
-    <table>
-      <tr>
-        <th>Header</th>
-        <th>status</th>
-      </tr>
-      <tr v-for="post of posts" :key="post.id">
-        <a :href="`/posts/${post.name}`">
-          <td>{{ post.header }}</td>
-          <td>{{ post.status }}</td>
-        </a>
-      </tr>
-    </table>
-
-    <p>{{ posts }}</p>
+    <h1 class="h1-responsive">Posts</h1>
+    <div class="container">
+    <div class="list-group">
+      <router-link :to="`/posts/${post.name}/overview`" v-for="post of posts" :key="post.id" class="list-group-item list-group-item-action">
+      <div class="row">
+        <div class="col text-truncate">
+          {{post.header}}
+        </div>
+        <div class="col">
+          {{post.status}}
+        </div>
+        <div class="col">
+          <router-link to="/abc">
+            <button type="button" class="btn btn-danger">
+              <i class="fas fa-trash mr-1"></i>
+              Delete
+            </button>
+          </router-link>
+        </div>
+      </div>
+      </router-link>
+      </div>
+    </div>
+    <!-- <p>{{ posts }}</p> -->
   </div>
 </template>
 
@@ -30,3 +39,13 @@ export default class PostsView extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.col {
+  text-align: left;
+}
+button {
+  z-index: 100;
+}
+
+</style>

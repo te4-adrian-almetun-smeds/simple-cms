@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Create a new Post</h1>
+    <h1 class="h1-responsive">Create a new Post</h1>
     <TextEditor/>
   </div>
 </template>
