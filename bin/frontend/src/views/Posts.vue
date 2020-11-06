@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is a posts page</h1>
+  <div>
+    <h1>Posts</h1>
     <table>
       <tr>
         <th>Header</th>
@@ -27,7 +27,6 @@ export default class PostsView extends Vue {
 
   async mounted?() {
     this.posts = await new Blog().getPosts();
-    console.log(this.posts[1].status);
   }
 }
 </script>

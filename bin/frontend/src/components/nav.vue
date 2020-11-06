@@ -31,14 +31,19 @@ li {
   padding-left: 10px;
   text-align: left;
 }
+
 nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  font-weight: bold;
   min-height: 100vh;
-  height: 100%;
+  overflow: scroll;
   a {
     color: inherit !important;
-  }
-  .router-link-active {
-    color: #3F729B !important;
+    &.router-link-exact-active {
+      color: #3f729b !important;
+    }
   }
 }
 </style>
