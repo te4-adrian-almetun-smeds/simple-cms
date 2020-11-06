@@ -7,7 +7,7 @@ createApp(App)
   .mount("#app");
 
 class Post {
-  private _header: string;
+  private _header: string | null;
   private _status: string;
   private _body: string;
   private _author: number;
@@ -26,14 +26,24 @@ class Post {
     return this._status;
   }
 
-  public get header(): string {
+  public set status(input: string){
+    this._status = input;
+  }
+
+  public get header(): string | null {
     return this._header;
   }
 
-  public get author(): string {
-    // return new User(this._author)
-    console.log(this._author);
-    return "Administrator";
+  public set header(input: string | null) {
+    this._header = input;
+  }
+
+  public get author(): number {
+    return this._author
+  }
+
+  public set author(input: number){
+    this._author = input;
   }
 
   public get time(): Date {
@@ -49,13 +59,47 @@ class Post {
     return this._name;
   }
 
+  public set name(input: string) {
+    this._name = input;
+  }
+
   constructor() {
-    this._header = "";
+    this._header = null;
     this._status = "draft";
     this._body = "";
     this._author = 0;
     this._time = "2000-12-12T12:12:12.120Z";
     this._name = "abcd";
+  }
+
+  public setData(attributes: Record<string, any>) {
+    Object.keys(attributes).forEach((key) => {
+      const value = attributes[key]
+      switch (key) {
+        case 'header':
+          this.header = value;
+          break;
+        case 'postStatus':
+          this.status = value;
+          break;
+        case 'body':
+          this.body = value;
+          break;
+        case 'authorId':
+          this.author = value;
+          break;
+        case 'time':
+          console.log("Did not update time")
+          // this.time = value;
+          break;
+        case 'postName':
+          this.name = value;
+          break;
+        default:
+          console.log(key)
+          console.log('Some data was excluded')
+      }
+    })
   }
 }
 
@@ -68,12 +112,11 @@ class Blog {
 
   async getPosts() {
     const temp = await fetch("http://localhost:9292/api/blogs/1/posts");
-    console.log(temp);
     const temporary = await temp.json();
     const out: Post[] = [];
     temporary.forEach((element: { body: string }) => {
       const x = new Post();
-      x.body = element.body;
+      x.setData(element)
       out.push(x);
     });
     return out;

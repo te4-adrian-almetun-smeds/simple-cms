@@ -69,7 +69,7 @@ function initializeEditor() {
 
 function ProductList() {
  const state = reactive({
-    header: '',
+    header: 'Header',
     editor: initializeEditor(),
   });
 
@@ -79,7 +79,13 @@ function ProductList() {
       .save()
       .then((outputData: any) => {
         outputData.header = state.header
-        outputData.author = 1;
+        outputData.authorId = 1;
+        outputData.blogId = 1;
+        outputData.body = outputData.blocks;
+        outputData.postStatus = 'published';
+        outputData.postName = `${outputData.header}-${new Date().getDate().toString()}-${new Date().getSeconds().toString()}`;
+        delete outputData.version;
+        delete outputData.blocks;
         console.log("Article data: ", outputData);
         fetch("http://localhost:9292/api/blogs/1/posts", {
           method: "POST",

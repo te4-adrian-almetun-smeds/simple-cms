@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <h1>Create a new Post</h1>
     <TextEditor/>
   </div>
 </template>
