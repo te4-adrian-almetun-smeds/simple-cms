@@ -1,16 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    ansi (1.5.0)
-    builder (3.2.4)
     diff-lcs (1.4.4)
     dotenv (2.7.6)
-    minitest (5.14.2)
-    minitest-reporters (1.4.2)
-      ansi
-      builder
-      minitest (>= 5.0)
-      ruby-progressbar
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
@@ -31,7 +23,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.0)
-    ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
     sequel (5.38.0)
     sinatra (2.1.0)
@@ -56,8 +47,6 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
-  minitest
-  minitest-reporters
   rake (>= 12.3.3)
   rspec
   sequel
