@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require 'rspec'
+require_relative '../spec_helper'
 require_relative '../../modules/database_controller'
 require_relative '../../db/seeder'
 
 # Temp class
 class Temp < DatabaseController
-  set_columns :username, :password, :email, :time, :id
+  set_columns :username, :password, :email, :registerTime, :id
   set_table :users
 end
 
@@ -22,13 +23,13 @@ RSpec.describe 'DatabaseController:' do
     end
 
     it 'the controller should be able to insert data to the database' do
-      temp = Temp.new({ username: 'username', password: '#!"#&(YSAJDHY/DT', email: 'email', register_time: 0o000000 })
+      temp = Temp.new({ username: 'username', password: '#!"#&(YSAJDHY/DT', email: 'email', registerTime: 0o000000 })
       temp.save
       expect(temp.id).to eq 1
     end
 
     it 'the controller should be able to get all data from a the database' do
-      expect(Temp.fetch_all.first.instance_variables).to eq %i[@username @password @email @register_time @id @status]
+      expect(Temp.fetch_all.first.instance_variables).to eq %i[@username @password @email @registerTime @id @status]
       expect(Temp.fetch_all.first.username).to eq 'username'
       expect(Temp.fetch_all.length).to eq 1
     end
@@ -43,16 +44,16 @@ RSpec.describe 'DatabaseController:' do
       temp.first.username = 'another username or something'
       temp.first.save
       expect(Temp.fetch_where(id: 1).first.instance_variables).to eq %i[@username @password @email
-                                                                        @register_time @id @status]
+                                                                        @registerTime @id @status]
       expect(Temp.fetch_where(id: 1).first.username).to eq 'another username or something'
       expect(Temp.fetch_where(id: 2)).to eq []
     end
 
     it 'the controller should be able to handle multiple rows' do
-      temp = Temp.new({ username: 'username', password: '#!"#&(YSAJDHY/DT', email: 'email', register_time: 0o000000 })
+      temp = Temp.new({ username: 'username', password: '#!"#&(YSAJDHY/DT', email: 'email', registerTime: 0o000000 })
       temp.save
       expect(Temp.fetch_where(id: 2).first.instance_variables).to eq %i[@username @password @email
-                                                                        @register_time @id @status]
+                                                                        @registerTime @id @status]
       expect(Temp.fetch_all.length).to eq 2
     end
 
