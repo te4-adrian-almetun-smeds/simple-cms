@@ -72,6 +72,14 @@ class Post {
     this._name = "abcd";
   }
 
+  public static async get(name: string | string[]) {
+    const temp = await fetch(`http://localhost:9292/api/blogs/1/posts/${name}`);
+    const elements = await temp.json();
+    const x = new Post();
+    x.setData(elements[0]);
+    return x;
+  }
+
   public setData(attributes: Record<string, any>) {
     Object.keys(attributes).forEach((key) => {
       const value = attributes[key]
