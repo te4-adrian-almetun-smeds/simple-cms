@@ -7,10 +7,7 @@
       v-model="state.header"
     />
     <div id="editorjs"></div>
-    <button type="button" class="btn btn-primary" @click="addArticle">
-      <i class="fas fa-trash mr-1"></i>
-      {{buttonText}}
-    </button>
+    <slot></slot>
   </div>
 </template>
 
