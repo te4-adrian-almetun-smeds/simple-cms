@@ -57,7 +57,7 @@ class Server < Sinatra::Base
         end
 
         get '/:post_name/?' do
-          Posts.fetch_where({ postName: params[:pos_name], blogId: params[:blog_id] }, false).to_json
+          Posts.fetch_where({ postName: params[:post_name], blogId: params[:blog_id] }, false).to_json
         end
 
         put '/:post_name/?' do
