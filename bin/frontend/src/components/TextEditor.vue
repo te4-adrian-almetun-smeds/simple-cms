@@ -7,7 +7,10 @@
       v-model="state.header"
     />
     <div id="editorjs"></div>
-    <button @click="addArticle">Submit</button>
+    <button type="button" class="btn btn-primary" @click="addArticle">
+      <i class="fas fa-trash mr-1"></i>
+      {{buttonText}}
+    </button>
   </div>
 </template>
 
@@ -15,11 +18,11 @@
 import { reactive } from "vue";
 import EditorJS from "@editorjs/editorjs";
 
-function initializeEditor() {
+function initializeEditor(dataVar =  {blocks: []}) {
   return new EditorJS({
     holder: "editorjs",
     placeholder: "Let`s write an awesome story!",
-    // data: {},
+    data: dataVar,
     tools: {
       // header: {
       //   class: Header,
@@ -67,10 +70,10 @@ function initializeEditor() {
   });
 }
 
-function ProductList() {
+function ProductList(props: any) {
  const state = reactive({
     header: 'Header',
-    editor: initializeEditor(),
+    editor: initializeEditor(props.data),
   });
 
   const addArticle = (e: Event) => {
@@ -87,6 +90,7 @@ function ProductList() {
         delete outputData.version;
         delete outputData.blocks;
         console.log("Article data: ", outputData);
+        outputData.body = JSON.stringify(outputData.body);
         fetch("http://localhost:9292/api/blogs/1/posts", {
           method: "POST",
           body: JSON.stringify(outputData)
@@ -105,8 +109,21 @@ function ProductList() {
 }
 
 export default {
-  setup() {
-      const { state, addArticle } = ProductList();
+  props: {
+    buttonText: {
+      type: String,
+      default: 'Save'
+      },
+    header: {
+      type: String,
+      default: 'Title'
+      },
+    data: {
+      type: Object,
+      default: ()=> {return {time: 0}}},
+  },
+  setup(props: any) {
+      const { state, addArticle } = ProductList(props);
       return { state, addArticle };
     },
 };
