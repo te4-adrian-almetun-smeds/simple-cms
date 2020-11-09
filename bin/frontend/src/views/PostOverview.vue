@@ -3,14 +3,13 @@
     <h1 class="h1-responsive">Post Overview</h1>
     <div class="container" v-if="post != null">
       <div class="container">
-        <TextEditor :header="post.header" :data="post.body" buttonText="Update"/>
+        <TextEditor :header="post.header" :data="post.body">
+          <footer class="float-right">
+            <Button type="submit" class="btn-danger" icon="fa-trash" text="Delete"/>
+            <Button class="btn-primary" icon="fa-pen" text="Save"/>
+          </footer>
+        </TextEditor>
       </div>
-      <router-link  :to="`/posts/${post.name}/delete`">
-        <button type="button" class="btn btn-danger">
-          <i class="fas fa-trash mr-1"></i>
-          Delete
-        </button>
-      </router-link>
     </div>
   </div>
 </template>
@@ -19,10 +18,12 @@
 import { Options, Vue } from "vue-class-component";
 import Post from "../methods/posts";
 import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
+import Button from "@/components/button.vue";
 
 @Options({
   components: {
-    TextEditor
+    TextEditor,
+    Button
   }
 })
 
