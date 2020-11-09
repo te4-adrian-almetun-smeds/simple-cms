@@ -9,16 +9,17 @@ createApp(App)
 class Post {
   private _header: string | null;
   private _status: string;
-  private _body: string;
+  private _body: any;
   private _author: number;
   private _time: string;
   private _name: string;
 
-  public set body(input: string) {
-    this._body = input;
+  public set body(input: any) {
+    input = JSON.parse(`${input}`)
+    this._body = {blocks: input};
   }
 
-  public get body(): string {
+  public get body(): any {
     return this._body;
   }
 
