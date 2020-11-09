@@ -29,7 +29,8 @@
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
-import { Blog, Post } from "../main";
+import Blog from '../methods/blog'
+import Post from '../methods/posts'
 
 export default class PostsView extends Vue {
   posts: Post[] | null = null;

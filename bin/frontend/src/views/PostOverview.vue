@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { Post } from "../main";
+import Post from "../methods/posts";
 import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
 
 @Options({
