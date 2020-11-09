@@ -12,18 +12,12 @@
           {{post.status}}
         </div>
         <div class="col">
-          <router-link to="/abc">
-            <button type="button" class="btn btn-danger">
-              <i class="fas fa-trash mr-1"></i>
-              Delete
-            </button>
-          </router-link>
+          {{post.time}}
         </div>
       </div>
       </router-link>
       </div>
     </div>
-    <!-- <p>{{ posts }}</p> -->
   </div>
 </template>
 
