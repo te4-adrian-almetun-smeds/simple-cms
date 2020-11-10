@@ -3,7 +3,7 @@ class Post {
   private _status: string;
   private _body: any;
   private _author: number;
-  private _time: string;
+  private _time: Date;
   private _name: string;
 
   public set body(input: any) {
@@ -39,13 +39,12 @@ class Post {
     this._author = input;
   }
 
-  public get time(): Date {
-    return new Date(this._time);
+  public get time(): any {
+    return this._time.toISOString().slice(0, 16).replace('T', ' ');
   }
 
-  public set time(input: Date) {
-    this._time = input.toISOString();
-    // return new Date(this._time)
+  public set time(input: any) {
+    this._time = input;
   }
 
   public get name(): string {
@@ -61,7 +60,7 @@ class Post {
     this._status = "draft";
     this._body = "";
     this._author = 0;
-    this._time = "2000-12-12T12:12:12.120Z";
+    this._time = new Date("2000-12-12T12:12:12.120Z");
     this._name = "abcd";
   }
 
@@ -90,8 +89,7 @@ class Post {
           this.author = value;
           break;
         case 'time':
-          console.log("Did not update time")
-          // this.time = value;
+          this.time = new Date(value);
           break;
         case 'postName':
           this.name = value;
