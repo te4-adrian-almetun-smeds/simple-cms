@@ -19,8 +19,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import Blog from "../methods/blog";
-import Post from "../methods/posts";
-import PostsItem from './PostsItem.vue';
+import PostsItem from "./PostsItem.vue";
 
 export default {
   components: { PostsItem },
