@@ -49,13 +49,7 @@ nav {
 </style>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
-
-export default class Nav extends Vue {
-  // public name = "Nav"
-  // constructor() {
-  //   // super()
-  //   this.name = 'Nav'
-  // }
+export default {
+  name: "Nav"
 }
 </script>

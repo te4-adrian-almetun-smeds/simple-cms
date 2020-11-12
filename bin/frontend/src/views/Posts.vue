@@ -17,22 +17,24 @@
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
+import Blog from "../methods/blog";
+import Post from "../methods/posts";
 import PostsItem from './PostsItem.vue';
 
+export default {
   components: { PostsItem },
+  name: "PostsView",
 
-  async mounted?() {
-    this.posts = await new Blog().getPosts();
+  setup() {
+    const posts: any = ref(null);
+    const getPosts = async () => {
+      const temp = await new Blog().getPosts();
+      posts.value = temp;
+    };
+    getPosts();
+
+    return { posts };
   }
-}
+};
 </script>
-
-<style lang="scss" scoped>
-.col {
-  text-align: left;
-}
-button {
-  z-index: 100;
-}
-
-</style>

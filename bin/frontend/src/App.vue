@@ -6,16 +6,10 @@
 </template>
 
 <script lang="ts">
-// import { onMounted } from 'vue'
-import { Options, Vue } from "vue-class-component";
 import Nav from "./components/nav.vue";
-
-@Options({
-  components: {
-    Nav
-  }
-})
-export default class App extends Vue {}
+export default {
+  components: { Nav }
+};
 </script>
 
 <style lang="scss">
@@ -25,6 +19,5 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  display: grid;
 }
 </style>

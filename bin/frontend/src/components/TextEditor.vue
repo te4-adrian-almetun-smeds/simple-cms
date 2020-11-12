@@ -6,17 +6,17 @@
       placeholder="Post Header"
       v-model="state.header"
     />
-    <div id="editorjs"></div>
+    <div id="editorjs" @load="$emit('loaded-editor', state.editor)"></div>
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import EditorJS from "@editorjs/editorjs";
 
-function initializeEditor(dataVar =  {blocks: []}) {
-  return new EditorJS({
+function initializeEditor(dataVar = { blocks: [] }) {
+  const editor =  new EditorJS({
     holder: "editorjs",
     placeholder: "Let`s write an awesome story!",
     data: dataVar,
@@ -65,15 +65,19 @@ function initializeEditor(dataVar =  {blocks: []}) {
       // }
     }
   });
+
+  // Store.set('editor', editor)
+  return editor
 }
 
 function ProductList(props: any) {
- const state = reactive({
-    header: 'Header',
+  const state = reactive({
+    header: "Header",
     editor: initializeEditor(props.data),
   });
 
-  const addArticle = (e: Event) => {
+  const addarticle = (e: Event) => {
+    console.log("Whatsup");
     e.preventDefault();
     state.editor
       .save()
@@ -98,34 +102,53 @@ function ProductList(props: any) {
       });
   };
 
-//  const removeArticle = (i) => {
-//     state.data.splice(i, 1);
-//   };
+  //  const removeArticle = (i) => {
+  //     state.data.splice(i, 1);
+  //   };
 
-  return { state, addArticle };
+  return { state, addarticle };
 }
 
 export default {
   props: {
     buttonText: {
       type: String,
-      default: 'Save'
-      },
+      default: "Save"
+    },
     header: {
       type: String,
-      default: 'Title'
-      },
+      default: "Title"
+    },
     data: {
       type: Object,
-      default: ()=> {return {time: 0}}},
-  },
-  setup(props: any) {
-      const { state, addArticle } = ProductList(props);
-      return { state, addArticle };
+      default: () => {
+        return { time: 0 };
+      }
     },
+    trigger: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props: any, context: any) {
+    const { state, addarticle } = ProductList(props);
+    watch(
+      () => props.trigger,
+      async (__count__, __prevCount__) => {
+        const temp: { [k: string]: any } = await state.editor.save();
+        temp.header = state.header
+        context.emit("save", temp);
+      }
+    );
+    return { state, addarticle };
+  },
+  methods: {
+    addarticles() {
+      console.log("hello");
+    }
+  }
 };
 </script>
-
 
 <style lang="scss" scoped>
 input, input:focus {
