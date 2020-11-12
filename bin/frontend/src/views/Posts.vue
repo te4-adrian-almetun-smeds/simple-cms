@@ -2,32 +2,24 @@
   <div>
     <h1 class="h1-responsive">Posts</h1>
     <div class="container">
-    <div class="list-group">
-      <router-link :to="`/posts/${post.name}/overview`" v-for="post of posts" :key="post.id" class="list-group-item list-group-item-action">
-      <div class="row">
-        <div class="col text-truncate">
-          {{post.header}}
-        </div>
-        <div class="col">
-          {{post.status}}
-        </div>
-        <div class="col">
-          {{post.time}}
-        </div>
-      </div>
-      </router-link>
+      <div class="list-group">
+        <router-link
+          :to="`/posts/${post.name}/overview`"
+          v-for="post of posts"
+          :key="post.id"
+          class="list-group-item list-group-item-action"
+        >
+          <PostsItem :post="post" />
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
-import Blog from '../methods/blog'
-import Post from '../methods/posts'
+import PostsItem from './PostsItem.vue';
 
-export default class PostsView extends Vue {
-  posts: Post[] | null = null;
+  components: { PostsItem },
 
   async mounted?() {
     this.posts = await new Blog().getPosts();
