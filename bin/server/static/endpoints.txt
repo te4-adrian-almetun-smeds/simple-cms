@@ -1,0 +1,17 @@
+GET     /api
+GET     /api/endpoints
+GET     /api/blogs
+POST    /api/blogs
+PUT     /api/blogs/:id
+GET     /api/blogs/:id
+DELETE  /api/blogs/:id
+GET     /api/blogs/:id/posts
+POST    /api/blogs/:id/posts
+GET     /api/blogs/:id/posts/:post_name
+PUT     /api/blogs/:id/posts/:post_name
+DELETE  /api/blogs/:id/posts/:post_name
+GET     /api/users
+POST    /api/users
+GET     /api/users/:id
+PUT     /api/users/:id
+DELETE  /api/users/:id

@@ -19,7 +19,7 @@ class Server < Sinatra::Base
     before do
       content_type :json
       headers 'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Allow-Methods' => '*'
+              'Access-Control-Allow-Methods' => '*'
     end
 
     namespace '/blogs' do
@@ -96,6 +96,11 @@ class Server < Sinatra::Base
         temp = Users.fetch_where(id: params[:id])
         temp.delete
       end
+    end
+    get '/endpoints/?' do
+      File.read('./static/endpoints.txt')
+    rescue StandardError
+      'Unable to fetch endpoints, please try again.'
     end
   end
 end
