@@ -2,7 +2,7 @@
 
 ## About
 
-Write about 1-2 paragraphs describing the purpose of your project.
+A minimalistic headless CMS inspired by WordPress and Strapi.
 
 ## Getting Started
 
@@ -10,30 +10,38 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
+* Npm
+* Ruby
+* Bundler
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running.
 
-Say what the step will be
+Begin by cloning the repository to you local machine
 
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+```console
+git clone git@github.com:te4-adrian-almetun-smeds/simple-cms.git
+cd simple-cms
 ```
 
-End with an example of getting some data out of the system or using it for a little demo.
+You will now need to install all the dependencies.
+
+```console
+cd bin/frontend && npm install
+cd bin/server && bundle install
+```
+
+You should now be ready to start up the servers.
+
+```console
+frontend: npm run serve
+server: rackup
+```
+
+The application should now be reachable using the outputted adresses.
 
 ## Usage
 
-Add notes about how to use the system.
+The backend follows the principles of a RESTful API and is reachable from `localhost.9292/api`
+You can access a list of all reachable routes by visiting `localhost:9292/api/endpoints`
