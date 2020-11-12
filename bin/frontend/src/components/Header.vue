@@ -25,9 +25,11 @@
       </div>
     </div>
     <!--Slack-->
-    <button type="button" class="btn btn-md xyz justify-content-center align-items-center">
-      <i class="fas fa-user"></i>
-    </button>
+    <div id="user">
+      <button type="button" class="btn btn-md xyz float-right rounded-circle">
+        <i class="fas fa-user"></i>
+      </button>
+    </div>
   </header>
 </template>
 
@@ -53,11 +55,19 @@ export default {
   header {
     padding: 4px;
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, auto);
     width: 100%;
     top: 0;
     z-index: 99;
     border-bottom: black 1px solid;
+    #user button {
+      width: 45px;
+      height: 45px;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 </style>
