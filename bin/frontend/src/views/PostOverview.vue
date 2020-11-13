@@ -12,12 +12,12 @@
           <footer class="float-right">
             <Button
               type="submit"
-              class="btn-danger"
+              class="btn-danger btn-sm"
               icon="fa-trash"
               text="Delete"
             />
             <Button
-              class="btn-primary"
+              class="btn-primary btn-sm"
               icon="fa-pen"
               text="Save"
               @clicked="triggerPostUpdate"
