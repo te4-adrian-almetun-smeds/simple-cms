@@ -1,10 +1,51 @@
 import Post from "./posts"
 
 class Blog {
-  private _posts: any;
+  private _name: string;
+  private _id: string;
 
-  public get posts() {
-    return this._posts;
+  public get name() {
+    return this._name;
+  }
+  public set name(x: string) {
+    this._name = x;
+  }
+  public get id() {
+    return this._id;
+  }
+
+  constructor() {
+    this._id = "";
+    this._name = "";
+  }
+
+  static async get() {
+    const temp = await fetch(`http://localhost:9292/api/blogs`);
+    const temporary = await temp.json();
+    const out: Blog[] = [];
+    temporary.forEach((element: { body: string }) => {
+      const x = new Blog();
+      x.setData(element)
+      out.push(x);
+    });
+    return out;
+  }
+
+  public setData(attributes: Record<string, any>) {
+    Object.keys(attributes).forEach(key => {
+      const value = attributes[key];
+      switch (key) {
+        case "name":
+          this._name = value;
+          break;
+        case "id":
+          this._id = value;
+          break;
+        default:
+          console.log(key)
+          console.log("Some data was excluded");
+      }
+    })
   }
 
   static async getPosts(id: string) {
