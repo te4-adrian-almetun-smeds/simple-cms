@@ -62,7 +62,7 @@ export default {
 
     function updatePost(data: any) {
       // Make a request to the CMS API
-      console.log("This should update")
+      console.log("This should update");
     }
 
     return { post, triggerPostUpdate, trigger, updatePost };
