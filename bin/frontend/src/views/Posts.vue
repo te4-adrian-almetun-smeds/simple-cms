@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="h1-responsive">Posts</h1>
-    <div class="container">
+    <div class="container" v-if="posts && posts.length > 0">
       <div class="list-group">
         <router-link
           :to="`/posts/${post.name}/overview`"
@@ -12,6 +12,9 @@
           <PostsItem :post="post" />
         </router-link>
       </div>
+    </div>
+    <div class="container" v-else>
+      <h2 class="responsive-h2">No posts for selected blog</h2>
     </div>
   </div>
 </template>

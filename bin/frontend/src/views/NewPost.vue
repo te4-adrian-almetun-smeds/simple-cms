@@ -17,7 +17,8 @@
 <script lang="ts">
 import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
 import Button from "@/components/button.vue";
-import { ref } from 'vue';
+import { ref } from "vue";
+import store from "@/store";
 
 export default {
   components: {
@@ -31,9 +32,14 @@ export default {
       trigger.value = !trigger.value;
     }
 
-    function saveArticle(outputData: any) {
+    function saveArticle(outputData: any): any {
+      const blogId = store.getters.blog.id;
+      if (blogId == 0) {
+        alert("5001 No blog selected");
+        return null;
+      }
       outputData.authorId = 1;
-      outputData.blogId = 1;
+      outputData.blogId = blogId;
       outputData.body = outputData.blocks;
       outputData.postStatus = "published";
       outputData.postName = `${outputData.header}-${new Date().getDate().toString()}-${new Date().getSeconds().toString()}`;
@@ -41,7 +47,7 @@ export default {
       delete outputData.blocks;
       console.log("Article data: ", outputData);
       outputData.body = JSON.stringify(outputData.body);
-      fetch("http://localhost:9292/api/blogs/1/posts", {
+      fetch(`http://localhost:9292/api/blogs/${blogId}/posts`, {
         method: "POST",
         body: JSON.stringify(outputData)
       });
