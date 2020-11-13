@@ -7,8 +7,8 @@ class Blog {
     return this._posts;
   }
 
-  async getPosts() {
-    const temp = await fetch("http://localhost:9292/api/blogs/1/posts");
+  static async getPosts(id: string) {
+    const temp = await fetch(`http://localhost:9292/api/blogs/${id}/posts`);
     const temporary = await temp.json();
     const out: Post[] = [];
     temporary.forEach((element: { body: string }) => {

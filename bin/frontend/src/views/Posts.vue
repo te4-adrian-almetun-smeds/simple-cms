@@ -20,6 +20,7 @@
 import { ref } from "vue";
 import Blog from "../methods/blog";
 import PostsItem from "./PostsItem.vue";
+import store from '@/store';
 
 export default {
   components: { PostsItem },
@@ -28,7 +29,7 @@ export default {
   setup() {
     const posts: any = ref(null);
     const getPosts = async () => {
-      const temp = await new Blog().getPosts();
+      const temp = await Blog.getPosts(store.getters.blog.id);
       posts.value = temp;
     };
     getPosts();

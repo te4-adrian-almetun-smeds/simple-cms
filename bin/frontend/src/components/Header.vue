@@ -9,14 +9,14 @@
       aria-haspopup="true"
       aria-expanded="false"
     >
-      {{ currentBlog }}
+      {{ currentBlog.name }}
     </a>
 
     <div v-if="blogs">
       <div class="dropdown-menu" v-for="blog in blogs" :key="blog">
-        <a class="dropdown-item" href="#">Blog {{ blog.id }}</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+        <a class="dropdown-item" href="#" @click="changeBlog(blog.id)">
+          {{ blog.name }}
+        </a>
       </div>
     </div>
     <div v-else>
@@ -24,7 +24,6 @@
         <a class="dropdown-item">Create a Blog to get started</a>
       </div>
     </div>
-    <!--Slack-->
     <div id="user">
       <button type="button" class="btn btn-md xyz float-right rounded-circle">
         <i class="fas fa-user"></i>
@@ -33,15 +32,26 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
+import store from "@/store";
+import { ref } from "vue";
 export default {
   name: "Header",
-  props: {
-    blogs: {},
-    currentBlog: {
-      default: "No blog selected",
-      type: String
-    }
+  setup() {
+    const currentBlog = ref(store.getters.blog);
+
+    const blogs = ref([{ id: 0 }]);
+    const getBlogs = async () => {
+      const temp = await fetch("http://localhost:9292/api/blogs");
+      blogs.value = await temp.json();
+    };
+    getBlogs();
+
+    const changeBlog = (id: number) => {
+      currentBlog.value = blogs.value.find(x => x.id === id);
+      store.commit("setBlog", currentBlog.value);
+    };
+    return { changeBlog, blogs, currentBlog };
   }
 };
 </script>
