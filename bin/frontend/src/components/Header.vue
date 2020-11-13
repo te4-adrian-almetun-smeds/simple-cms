@@ -37,7 +37,7 @@ import store from "@/store";
 import { ref } from "vue";
 export default {
   name: "Header",
-  setup(prop: any, { emit }) {
+  setup(prop: any, { emit }: any) {
     const currentBlog = ref(store.getters.blog);
 
     const blogs = ref([{ id: 0 }]);
