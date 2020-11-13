@@ -1,16 +1,25 @@
 <template>
-  <Header />
+  <Header @update="onUpdate" />
   <div class="row">
     <Nav class="col-4" />
-    <router-view class="col-8 content"> </router-view>
+    <router-view class="col-8 content" :updater="key"> </router-view>
   </div>
 </template>
 
 <script lang="ts">
 import Nav from "./components/nav.vue";
 import Header from "./components/Header.vue";
+import { ref } from "vue";
 export default {
-  components: { Nav, Header }
+  components: { Nav, Header },
+  setup() {
+    const key = ref(true);
+    const onUpdate = () => {
+      key.value = !key.value;
+    };
+
+    return { key, onUpdate };
+  }
 };
 </script>
 

@@ -14,7 +14,7 @@
 
     <div v-if="blogs">
       <div class="dropdown-menu" v-for="blog in blogs" :key="blog">
-        <a class="dropdown-item" href="#" @click="changeBlog(blog.id)">
+        <a class="dropdown-item" @click="changeBlog(blog.id)">
           {{ blog.name }}
         </a>
       </div>
@@ -37,7 +37,7 @@ import store from "@/store";
 import { ref } from "vue";
 export default {
   name: "Header",
-  setup() {
+  setup(prop: any, { emit }) {
     const currentBlog = ref(store.getters.blog);
 
     const blogs = ref([{ id: 0 }]);
@@ -50,6 +50,7 @@ export default {
     const changeBlog = (id: number) => {
       currentBlog.value = blogs.value.find(x => x.id === id);
       store.commit("setBlog", currentBlog.value);
+      emit("update");
     };
     return { changeBlog, blogs, currentBlog };
   }

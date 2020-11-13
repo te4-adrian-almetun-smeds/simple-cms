@@ -17,22 +17,29 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Blog from "../methods/blog";
 import PostsItem from "./PostsItem.vue";
-import store from '@/store';
+import store from "@/store";
 
 export default {
   components: { PostsItem },
   name: "PostsView",
+  props: ["updater"],
 
-  setup() {
+  setup(props: any) {
     const posts: any = ref(null);
     const getPosts = async () => {
       const temp = await Blog.getPosts(store.getters.blog.id);
       posts.value = temp;
     };
     getPosts();
+    watch(
+      () => props.updater,
+      async (__count__, __prevCount__) => {
+        getPosts();
+      }
+    );
 
     return { posts };
   }
