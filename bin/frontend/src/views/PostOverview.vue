@@ -15,6 +15,7 @@
               class="btn-danger btn-sm"
               icon="fa-trash"
               text="Delete"
+              @clicked="deletePost"
             />
             <Button
               class="btn-primary btn-sm"
@@ -34,7 +35,7 @@ import Post from "../methods/posts";
 import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
 import Button from "@/components/button.vue";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   name: "PostsOverview",
@@ -42,8 +43,9 @@ export default {
     TextEditor,
     Button
   },
-  setup() {
+  setup(props: any, { emit }: any) {
     const route = useRoute();
+    const router = useRouter();
 
     // Handles a post
     const post: any = ref(null);
@@ -65,7 +67,15 @@ export default {
       console.log("This should update");
     }
 
-    return { post, triggerPostUpdate, trigger, updatePost };
+    async function deletePost() {
+      if ((await post.value.delete()) === 200) {
+        router.push({ name: "Posts" });
+      } else {
+        emit("error", { code: 5002, message: "Failed to delete post" });
+      }
+    }
+
+    return { post, triggerPostUpdate, trigger, updatePost, deletePost };
   }
 };
 </script>

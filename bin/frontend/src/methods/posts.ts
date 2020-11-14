@@ -73,6 +73,20 @@ class Post {
     return x;
   }
 
+  public async delete() {
+    try {
+      const temp = await fetch(
+        `http://localhost:9292/api/blogs/1/posts/${this._name}`,
+        {
+          method: "DELETE"
+        }
+      );
+      return temp.status;
+    } catch {
+      return new Error("Unable to delete post");
+    }
+  }
+
   public setData(attributes: Record<string, any>) {
     Object.keys(attributes).forEach((key) => {
       const value = attributes[key]
