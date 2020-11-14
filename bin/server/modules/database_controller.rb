@@ -142,6 +142,7 @@ class DatabaseController
   # table - String (Optional table)
   #
   # returns nothing
+  # rubocop:disable Metrics/AbcSize
   def save(table = nil)
     # Converts object to hash
     hash = {}
@@ -167,6 +168,7 @@ class DatabaseController
     end
   end
 end
+# rubocop:enable Metrics/AbcSize
 
 # Provides additional functionality for Hash elements
 class Hash

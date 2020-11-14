@@ -10,7 +10,7 @@ class Posts < DatabaseController
   # rubocop:disable Naming/VariableName
   def initialize(params = {})
     super(params)
-    @postName = @postName.gsub(/[\W]+/, '_')
+    @postName = @postName.gsub(/\W+/, '_')
   end
   # rubocop:enable Naming/VariableName
 end

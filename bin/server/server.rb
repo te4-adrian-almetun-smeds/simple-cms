@@ -5,11 +5,10 @@ require 'sinatra'
 require 'sinatra/namespace'
 require 'sinatra/cross_origin'
 
-require_relative 'modules/application_controller'
-
 Dotenv.load
 
 # Handles the webserver
+# rubocop:disable Metrics/BlockLength
 class Server < Sinatra::Base
   register Sinatra::Namespace
   enable :sessions
@@ -43,7 +42,7 @@ class Server < Sinatra::Base
 
       delete '/:id/?' do
         temp = Blogs.fetch_where(id: params[:id])
-        temp.delete
+        temp.first.delete
       end
 
       namespace '/:blog_id/posts' do
@@ -94,7 +93,7 @@ class Server < Sinatra::Base
 
       delete '/:id/?' do
         temp = Users.fetch_where(id: params[:id])
-        temp.delete
+        temp.first.delete
       end
     end
     get '/endpoints/?' do
@@ -104,3 +103,4 @@ class Server < Sinatra::Base
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
