@@ -22,6 +22,10 @@ class Server < Sinatra::Base
               'Access-Control-Allow-Methods' => '*'
     end
 
+    options '/*' do
+      halt 200
+    end
+
     namespace '/blogs' do
       get '/?' do
         Blogs.fetch_all(false).to_json
@@ -66,9 +70,10 @@ class Server < Sinatra::Base
           temp.save
         end
 
-        delete '/:id/?' do
-          temp = Posts.fetch_where(id: params[:id])
-          temp.delete
+        delete '/:post_name/?' do
+          temp = Posts.fetch_where({ postName: params[:post_name] })
+          temp.first.delete
+          halt 200
         end
       end
     end
