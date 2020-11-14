@@ -35,20 +35,20 @@
 <script lang="ts">
 import store from "@/store";
 import { ref } from "vue";
+import Blog from "../methods/blog";
 export default {
   name: "Header",
   setup(prop: any, { emit }: any) {
     const currentBlog = ref(store.getters.blog);
 
-    const blogs = ref([{ id: 0 }]);
+    const blogs: any = ref([{ id: 0 }]);
     const getBlogs = async () => {
-      const temp = await fetch("http://localhost:9292/api/blogs");
-      blogs.value = await temp.json();
+      blogs.value = await Blog.get();
     };
     getBlogs();
 
     const changeBlog = (id: number) => {
-      currentBlog.value = blogs.value.find(x => x.id === id);
+      currentBlog.value = blogs.value.find((x: any) => x.id === id);
       store.commit("setBlog", currentBlog.value);
       emit("update");
     };

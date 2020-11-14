@@ -20,7 +20,8 @@ class Blog {
   }
 
   static async get() {
-    const temp = await fetch(`http://localhost:9292/api/blogs`);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(`${baseUrl}:9292/api/blogs`);
     const temporary = await temp.json();
     const out: Blog[] = [];
     temporary.forEach((element: { body: string }) => {
@@ -49,7 +50,8 @@ class Blog {
   }
 
   static async getPosts(id: string) {
-    const temp = await fetch(`http://localhost:9292/api/blogs/${id}/posts`);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(`${baseUrl}:9292/api/blogs/${id}/posts`);
     const temporary = await temp.json();
     const out: Post[] = [];
     temporary.forEach((element: { body: string }) => {

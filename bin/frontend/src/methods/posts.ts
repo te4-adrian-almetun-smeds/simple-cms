@@ -65,7 +65,8 @@ class Post {
   }
 
   public static async get(name: string | string[]) {
-    const temp = await fetch(`http://localhost:9292/api/blogs/1/posts/${name}`);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(`${baseUrl}:9292/api/blogs/1/posts/${name}`);
     const elements = await temp.json();
     const x = new Post();
     x.setData(elements[0]);
