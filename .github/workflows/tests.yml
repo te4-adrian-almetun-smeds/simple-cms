@@ -17,6 +17,19 @@ jobs:
         bundle install
         rake test
 
+  ruby-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup Ruby
+      uses: actions/setup-ruby@v1
+    - name: Run all acceptance tests
+      working-directory: ./bin/server
+      run: |
+        gem install rubocop
+        rubocop
+
   js-unit-tests:
     runs-on: ubuntu-latest
     steps:
