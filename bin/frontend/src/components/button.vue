@@ -1,12 +1,11 @@
 <template>
-  <button :type="type" class="btn {{classes}}" @click="$emit('clicked')">
+  <button :type="type" class="btn" @click="$emit('clicked')">
     <i v-if="icon !== ''" :class="`fas ${icon} mr-1`"></i>
-    {{text}}
+    {{ text }}
   </button>
 </template>
 
 <script lang="ts">
-
 export default {
   name: "Button",
   props: {
@@ -17,10 +16,6 @@ export default {
     type: {
       type: String,
       default: "button"
-    },
-    classes: {
-      type: String,
-      default: "btn-primary"
     },
     icon: {
       type: String,
