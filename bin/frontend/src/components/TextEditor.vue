@@ -73,40 +73,10 @@ function initializeEditor(dataVar = { blocks: [] }) {
 function ProductList(props: any) {
   const state = reactive({
     header: "Header",
-    editor: initializeEditor(props.data),
+    editor: initializeEditor(props.data)
   });
 
-  const addarticle = (e: Event) => {
-    console.log("Whatsup");
-    e.preventDefault();
-    state.editor
-      .save()
-      .then((outputData: any) => {
-        outputData.header = state.header
-        outputData.authorId = 1;
-        outputData.blogId = 1;
-        outputData.body = outputData.blocks;
-        outputData.postStatus = 'published';
-        outputData.postName = `${outputData.header}-${new Date().getDate().toString()}-${new Date().getSeconds().toString()}`;
-        delete outputData.version;
-        delete outputData.blocks;
-        console.log("Article data: ", outputData);
-        outputData.body = JSON.stringify(outputData.body);
-        fetch("http://localhost:9292/api/blogs/1/posts", {
-          method: "POST",
-          body: JSON.stringify(outputData)
-        });
-      })
-      .catch(error => {
-        console.log("Saving failed: ", error);
-      });
-  };
-
-  //  const removeArticle = (i) => {
-  //     state.data.splice(i, 1);
-  //   };
-
-  return { state, addarticle };
+  return { state };
 }
 
 export default {
@@ -131,21 +101,16 @@ export default {
     }
   },
   setup(props: any, context: any) {
-    const { state, addarticle } = ProductList(props);
+    const { state } = ProductList(props);
     watch(
       () => props.trigger,
       async (__count__, __prevCount__) => {
         const temp: { [k: string]: any } = await state.editor.save();
-        temp.header = state.header
+        temp.header = state.header;
         context.emit("save", temp);
       }
     );
-    return { state, addarticle };
-  },
-  methods: {
-    addarticles() {
-      console.log("hello");
-    }
+    return { state };
   }
 };
 </script>
