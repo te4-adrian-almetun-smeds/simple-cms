@@ -6,7 +6,7 @@
       placeholder="Post Header"
       v-model="state.header"
     />
-    <div id="editorjs" @load="$emit('loaded-editor', state.editor)"></div>
+    <div id="editorjs"></div>
     <slot></slot>
   </div>
 </template>
@@ -66,8 +66,7 @@ function initializeEditor(dataVar = { blocks: [] }) {
     }
   });
 
-  // Store.set('editor', editor)
-  return editor
+  return editor;
 }
 
 function ProductList(props: any) {
@@ -108,6 +107,16 @@ export default {
         const temp: { [k: string]: any } = await state.editor.save();
         temp.header = state.header;
         context.emit("save", temp);
+      }
+    );
+    watch(
+      () => state.header,
+      async (newVal, __prevVal__) => {
+        if (newVal.length === 0) {
+          context.emit("header-empty");
+        } else {
+          context.emit("header-not-empty");
+        }
       }
     );
     return { state };

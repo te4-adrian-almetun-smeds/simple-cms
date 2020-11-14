@@ -8,6 +8,8 @@
           :data="post.body"
           :trigger="trigger"
           @save="savePost"
+          @header-empty="onHeaderEmpty"
+          @header-not-empty="onHeaderNotEmpty"
         >
           <footer class="float-right">
             <Button
@@ -19,8 +21,9 @@
             />
             <Button
               class="btn-primary btn-sm"
+              :class="{ disabled: !headerContainsContent }"
               icon="fa-pen"
-              text="Save"
+              text="Update Post"
               @clicked="triggerPostUpdate"
             />
           </footer>
@@ -46,12 +49,14 @@ export default {
   setup(props: any, { emit }: any) {
     const route = useRoute();
     const router = useRouter();
+    const headerContainsContent = ref(false);
 
     // Handles a post
     const post: any = ref(null);
     const getPost = async () => {
       const temp = await Post.get(route.params.postName);
       post.value = temp;
+      headerContainsContent.value = post.value.header.length !== 0;
     };
     getPost();
 
@@ -75,7 +80,24 @@ export default {
       }
     }
 
-    return { post, triggerPostUpdate, trigger, updatePost, deletePost };
+    function onHeaderEmpty() {
+      headerContainsContent.value = false;
+    }
+
+    function onHeaderNotEmpty() {
+      headerContainsContent.value = true;
+    }
+
+    return {
+      post,
+      triggerPostUpdate,
+      trigger,
+      updatePost,
+      deletePost,
+      onHeaderEmpty,
+      onHeaderNotEmpty,
+      headerContainsContent
+    };
   }
 };
 </script>

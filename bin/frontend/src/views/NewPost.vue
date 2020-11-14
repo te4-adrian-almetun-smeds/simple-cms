@@ -1,10 +1,16 @@
 <template>
   <div class="home">
     <h1 class="h1-responsive">Create a new Post</h1>
-    <TextEditor @save="saveArticle" :trigger="trigger">
+    <TextEditor
+      @save="saveArticle"
+      :trigger="trigger"
+      @header-empty="onHeaderEmpty"
+      @header-not-empty="onHeaderNotEmpty"
+    >
       <footer class="float-right">
         <Button
           class="btn-primary"
+          :class="{ disabled: !headerContainsContent }"
           icon="fa-pen"
           text="Save"
           @clicked="triggerArticleSave"
@@ -57,8 +63,25 @@ export default {
         alert("Unable to save post. Please try again.");
       }
     }
+
+    const headerContainsContent = ref(false);
+
+    function onHeaderEmpty() {
+      headerContainsContent.value = false;
     }
-    return { saveArticle, trigger, triggerArticleSave };
+
+    function onHeaderNotEmpty() {
+      headerContainsContent.value = true;
+    }
+
+    return {
+      saveArticle,
+      trigger,
+      triggerArticleSave,
+      onHeaderEmpty,
+      onHeaderNotEmpty,
+      headerContainsContent
+    };
   }
 };
 </script>
