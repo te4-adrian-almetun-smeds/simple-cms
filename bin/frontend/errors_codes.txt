@@ -1,1 +1,2 @@
 5001 No blog selected | Select a blog
+5002 Failed to delete post | Connection to server was lost, please try again
