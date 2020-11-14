@@ -206,7 +206,7 @@ end
 # Provides additional functionality to Arrays
 class Array
   def objectify(clazz)
-    clazz = clazz.to_s if clazz.class == Class
+    clazz = clazz.to_s if clazz.instance_of?(Class)
     objects = []
     clazzer = if Array.class_exists?(clazz)
                 Object.const_get(clazz)
