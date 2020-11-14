@@ -29,7 +29,7 @@
 import { ref, watch } from "vue";
 import Blog from "../methods/blog";
 import Button from "@/components/button.vue";
-import PostsItem from "./PostsItem.vue";
+import PostsItem from "@/components/PostsItem.vue";
 import store from "@/store";
 import { useRouter } from "vue-router";
 
