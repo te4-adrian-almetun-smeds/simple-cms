@@ -72,7 +72,7 @@ function initializeEditor(dataVar = { blocks: [] }) {
 
 function ProductList(props: any) {
   const state = reactive({
-    header: "Header",
+    header: props.header,
     editor: initializeEditor(props.data)
   });
 
@@ -87,7 +87,7 @@ export default {
     },
     header: {
       type: String,
-      default: "Title"
+      default: ""
     },
     data: {
       type: Object,
