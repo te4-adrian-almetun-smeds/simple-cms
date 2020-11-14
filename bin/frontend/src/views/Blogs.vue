@@ -28,7 +28,7 @@
 <script lang="ts">
 import { ref, watch } from "vue";
 import Blog from "../methods/blog";
-import BlogsItem from "./BlogsItem.vue";
+import BlogsItem from "@/components/BlogsItem.vue";
 import Button from "@/components/button.vue";
 import { useRouter } from "vue-router";
 
