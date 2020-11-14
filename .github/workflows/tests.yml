@@ -32,10 +32,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Lint Code Base
-        uses: github/super-linter@v3
+        uses: github/super-linter@v3.13.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # RUBY_CONFIG_FILE: bin/server/.rubocop.yml
+          RUBY_CONFIG_FILE: .rubocop.yml
           VALIDATE_MARKDOWN: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_HTML: false
