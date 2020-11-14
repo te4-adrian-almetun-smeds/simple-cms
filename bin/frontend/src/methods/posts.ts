@@ -2,17 +2,18 @@ class Post {
   private _header: string | null;
   private _status: string;
   private _body: any;
-  private _author: number;
+  private _authorId: number;
   private _time: Date;
   private _name: string;
+  private _blogId: number;
+  private _parent: number | null;
 
   public set body(input: any) {
-    input = JSON.parse(`${input}`)
-    this._body = {blocks: input};
+    this._body = input;
   }
 
   public get body(): any {
-    return this._body;
+    return { blocks: this._body };
   }
 
   public get status(): string {
@@ -32,15 +33,35 @@ class Post {
   }
 
   public get author(): number {
-    return this._author
+    console.log("Should return a author instance.");
+    return this._authorId;
   }
 
-  public set author(input: number){
-    this._author = input;
+  public set authorId(input: number){
+    this._authorId = input;
+  }
+
+  public get blogId(): number {
+    return this._blogId;
+  }
+
+  public set blogId(input: number){
+    this._blogId = input;
+  }
+
+  public get parent(): number | null {
+    return this._parent;
+  }
+
+  public set parent(input: number | null) {
+    this._parent = input;
   }
 
   public get time(): any {
-    return this._time.toISOString().slice(0, 16).replace('T', ' ');
+    return this._time
+      .toISOString()
+      .slice(0, 16)
+      .replace("T", " ");
   }
 
   public set time(input: any) {
@@ -52,6 +73,7 @@ class Post {
   }
 
   public set name(input: string) {
+    input = input.replace(/\W+/, "_");
     this._name = input;
   }
 
@@ -59,9 +81,11 @@ class Post {
     this._header = null;
     this._status = "draft";
     this._body = "";
-    this._author = 0;
+    this._authorId = 0;
     this._time = new Date("2000-12-12T12:12:12.120Z");
     this._name = "abcd";
+    this._blogId = 0;
+    this._parent = null;
   }
 
   public static async get(name: string | string[]) {
@@ -74,9 +98,10 @@ class Post {
   }
 
   public async delete() {
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
     try {
       const temp = await fetch(
-        `http://localhost:9292/api/blogs/1/posts/${this._name}`,
+        `${baseUrl}:9292/api/blogs/1/posts/${this._name}`,
         {
           method: "DELETE"
         }
@@ -91,29 +116,54 @@ class Post {
     Object.keys(attributes).forEach((key) => {
       const value = attributes[key]
       switch (key) {
-        case 'header':
+        case "header":
           this.header = value;
           break;
-        case 'postStatus':
+        case "postStatus":
           this.status = value;
           break;
-        case 'body':
-          this.body = value;
+        case "body":
+          this.body = JSON.parse(value);
           break;
-        case 'authorId':
-          this.author = value;
+        case "authorId":
+          this.authorId = value;
           break;
-        case 'time':
+        case "blogId":
+          this.blogId = value;
+          break;
+        case "time":
           this.time = new Date(value);
           break;
-        case 'postName':
+        case "postName":
           this.name = value;
           break;
         default:
           console.log(key)
-          console.log('Some data was excluded')
+          console.log("Some data was excluded");
       }
-    })
+    });
+  }
+
+  async save() {
+    const data = {
+      header: this._header,
+      postStatus: this._status,
+      body: JSON.stringify(this._body),
+      blogId: this._blogId,
+      authorId: this._authorId,
+      time: this._time,
+      postName: this._name,
+      postParent: this._parent
+    };
+    console.log("Article data", data);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(`${baseUrl}:9292/api/blogs/${this._blogId}/posts`, {
+        method: "POST",
+        body: JSON.stringify(data)
+      }
+    );
+    await temp.text();
+    return temp.status;
   }
 }
-export default Post
+export default Post;

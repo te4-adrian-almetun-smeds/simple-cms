@@ -57,6 +57,8 @@ class Server < Sinatra::Base
         post '/?' do
           temp = Posts.new(JSON.parse(request.body.read))
           temp.save
+          body temp.id.to_s
+          status 200
         end
 
         get '/:post_name/?' do

@@ -19,6 +19,8 @@ import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
 import Button from "@/components/button.vue";
 import { ref } from "vue";
 import store from "@/store";
+import Post from "../methods/posts";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -26,31 +28,35 @@ export default {
     Button
   },
   setup() {
+    const router = useRouter()
     const trigger = ref(false);
 
     function triggerArticleSave() {
       trigger.value = !trigger.value;
     }
 
-    function saveArticle(outputData: any): any {
-      const blogId = store.getters.blog.id;
-      if (blogId == 0) {
+    async function saveArticle(outputData: any): Promise<any> {
+      const post = new Post();
+      console.log(outputData.blocks)
+      post.blogId = store.getters.blog.id;
+      if (post.blogId == 0) {
         alert("5001 No blog selected");
         return null;
       }
-      outputData.authorId = 1;
-      outputData.blogId = blogId;
-      outputData.body = outputData.blocks;
-      outputData.postStatus = "published";
-      outputData.postName = `${outputData.header}-${new Date().getDate().toString()}-${new Date().getSeconds().toString()}`;
-      delete outputData.version;
-      delete outputData.blocks;
-      console.log("Article data: ", outputData);
-      outputData.body = JSON.stringify(outputData.body);
-      fetch(`http://localhost:9292/api/blogs/${blogId}/posts`, {
-        method: "POST",
-        body: JSON.stringify(outputData)
-      });
+      post.header = outputData.header;
+      post.authorId = 1;
+      post.status = "published";
+      post.name = `${outputData.header}-${new Date().getDate().toString()}_${new Date().getSeconds().toString()}`;
+      post.body = outputData.blocks;
+      if ((await post.save()) === 200) {
+        router.push({
+          name: "Posts Overview",
+          params: { postName: post.name }
+        });
+      } else {
+        alert("Unable to save post. Please try again.");
+      }
+    }
     }
     return { saveArticle, trigger, triggerArticleSave };
   }
