@@ -48,10 +48,12 @@ export default {
       console.log(outputData.blocks)
       post.blogId = store.getters.blog.id;
       if (post.blogId == 0) {
+        saveInProgress.value = false;
         alert("5001 No blog selected");
         return null;
       }
       post.header = outputData.header;
+      post.time = new Date();
       post.authorId = 1;
       post.status = "published";
       post.name = `${outputData.header}_${new Date().getDate().toString()}_${new Date().getSeconds().toString()}`;

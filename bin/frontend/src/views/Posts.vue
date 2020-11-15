@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="h1-responsive">Posts</h1>
+    <Spinner v-show="posts === [] || posts == null" />
     <div class="container" v-if="posts && blog !== 0">
       <div class="list-group">
         <router-link
@@ -30,11 +31,12 @@ import { ref, watch } from "vue";
 import Blog from "../methods/blog";
 import Button from "@/components/button.vue";
 import PostsItem from "@/components/PostsItem.vue";
+import Spinner from "@/components/spinner.vue";
 import store from "@/store";
 import { useRouter } from "vue-router";
 
 export default {
-  components: { PostsItem, Button },
+  components: { PostsItem, Button, Spinner },
   name: "PostsView",
   props: ["updater"],
 
