@@ -7,7 +7,7 @@
           :header="post.header"
           :data="post.body"
           :trigger="trigger"
-          @save="savePost"
+          @save="updatePost"
           @header-empty="onHeaderEmpty"
           @header-not-empty="onHeaderNotEmpty"
         >
@@ -24,6 +24,7 @@
               :class="{ disabled: !headerContainsContent }"
               icon="fa-pen"
               text="Update Post"
+              :spinner="saveInProgress"
               @clicked="triggerPostUpdate"
             />
           </footer>
@@ -62,7 +63,9 @@ export default {
 
     // Handles saving the post
     const trigger = ref(false);
+    const saveInProgress = ref(false);
     function triggerPostUpdate() {
+      saveInProgress.value = true;
       trigger.value = !trigger.value;
       console.log("Save in progress");
     }
@@ -70,6 +73,7 @@ export default {
     function updatePost(data: any) {
       // Make a request to the CMS API
       console.log("This should update");
+      saveInProgress.value = false;
     }
 
     async function deletePost() {
@@ -96,7 +100,8 @@ export default {
       deletePost,
       onHeaderEmpty,
       onHeaderNotEmpty,
-      headerContainsContent
+      headerContainsContent,
+      saveInProgress
     };
   }
 };

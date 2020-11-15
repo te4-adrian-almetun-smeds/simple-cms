@@ -13,6 +13,7 @@
           :class="{ disabled: !headerContainsContent }"
           icon="fa-pen"
           text="Save"
+          :spinner="saveInProgress"
           @clicked="triggerArticleSave"
         />
       </footer>
@@ -36,8 +37,9 @@ export default {
   setup() {
     const router = useRouter()
     const trigger = ref(false);
-
+    const saveInProgress = ref(false);
     function triggerArticleSave() {
+      saveInProgress.value = true;
       trigger.value = !trigger.value;
     }
 
@@ -52,15 +54,22 @@ export default {
       post.header = outputData.header;
       post.authorId = 1;
       post.status = "published";
-      post.name = `${outputData.header}-${new Date().getDate().toString()}_${new Date().getSeconds().toString()}`;
+      post.name = `${outputData.header}_${new Date().getDate().toString()}_${new Date().getSeconds().toString()}`;
       post.body = outputData.blocks;
-      if ((await post.save()) === 200) {
-        router.push({
-          name: "Posts Overview",
-          params: { postName: post.name }
-        });
-      } else {
-        alert("Unable to save post. Please try again.");
+      try {
+        if ((await post.save()) === 200) {
+          saveInProgress.value = false;
+          router.push({
+            name: "Posts Overview",
+            params: { postName: post.name }
+          });
+        } else {
+          saveInProgress.value = false;
+          alert("5003 Unable to save post. Please try again.");
+        }
+      } catch {
+        saveInProgress.value = false;
+        alert("5004 Unable to save post. Please try again.");
       }
     }
 
@@ -80,7 +89,8 @@ export default {
       triggerArticleSave,
       onHeaderEmpty,
       onHeaderNotEmpty,
-      headerContainsContent
+      headerContainsContent,
+      saveInProgress
     };
   }
 };
