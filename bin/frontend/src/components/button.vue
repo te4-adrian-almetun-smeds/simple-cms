@@ -1,6 +1,13 @@
 <template>
   <button :type="type" class="btn" @click="$emit('clicked')">
-    <i v-if="icon !== ''" :class="`fas ${icon} mr-1`"></i>
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+      v-show="spinner"
+    >
+    </span>
+    <i v-if="icon !== '' && !spinner" :class="`fas ${icon} mr-1`"></i>
     {{ text }}
   </button>
 </template>
@@ -12,6 +19,10 @@ export default {
     text: {
       type: String,
       default: "Save"
+    },
+    spinner: {
+      type: Boolean,
+      default: false
     },
     type: {
       type: String,
