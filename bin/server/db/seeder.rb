@@ -40,7 +40,7 @@ class Seeder
             "authorId" INTEGER NOT NULL,
             "blogId" INTEGER NOT NULL,
             "postParent" INTEGER,
-            "time" INTEGER,
+            "time" TEXT,
             "postName" TEXT UNIQE NOT NULL
         );'
     db.execute 'CREATE TABLE "users" (
@@ -48,7 +48,7 @@ class Seeder
             "username"	TEXT NOT NULL,
             "email"	TEXT NOT NULL,
             "password" TEXT NOT NULL,
-            "registerTime" INTEGER NOT NULL,
+            "registerTime" TEXT NOT NULL,
             "status" INTEGER
         );'
     db.execute 'CREATE TABLE "blogs" (
