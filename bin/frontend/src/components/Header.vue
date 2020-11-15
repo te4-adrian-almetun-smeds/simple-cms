@@ -1,7 +1,6 @@
 <template>
   <header class="white sticky-top">
     <h3 class="text-dark h3-responsive">Simple CMS</h3>
-
     <a
       class="btn text-dark dropdown-toggle mr-4"
       type="button"
@@ -12,9 +11,14 @@
       {{ currentBlog.name }}
     </a>
 
-    <div v-if="blogs">
-      <div class="dropdown-menu" v-for="blog in blogs" :key="blog">
-        <a class="dropdown-item" @click="changeBlog(blog.id)">
+    <div v-if="blogs.length !== 0">
+      <div class="dropdown-menu">
+        <a
+          class="dropdown-item"
+          v-for="blog in blogs"
+          :key="blog"
+          @click="changeBlog(blog.id)"
+        >
           {{ blog.name }}
         </a>
       </div>
@@ -43,7 +47,7 @@ export default {
   setup(prop: any, { emit }: any) {
     const currentBlog = ref(store.getters.blog);
 
-    const blogs: any = ref([{ id: 0 }]);
+    const blogs: any = ref([]);
     const getBlogs = async () => {
       blogs.value = await Blog.get();
     };
