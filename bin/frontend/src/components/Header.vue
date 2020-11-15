@@ -21,7 +21,9 @@
     </div>
     <div v-else>
       <div class="dropdown-menu">
-        <a class="dropdown-item">Create a Blog to get started</a>
+        <router-link :to="{ name: 'New Page' }" class="dropdown-item">
+          Create a Blog to get started
+        </router-link>
       </div>
     </div>
     <div id="user">

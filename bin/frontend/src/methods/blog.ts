@@ -61,6 +61,18 @@ class Blog {
     });
     return out;
   }
+
+  async save() {
+    const data = {
+      name: this._name
+    };
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(`${baseUrl}:9292/api/blogs`, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+    return await temp.text();
+  }
 }
 
 export default Blog

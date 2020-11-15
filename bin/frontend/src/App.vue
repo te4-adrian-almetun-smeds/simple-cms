@@ -1,8 +1,9 @@
 <template>
-  <Header @update="onUpdate" />
+  <Header :key="key" />
   <div class="row">
     <Nav class="col-4" />
-    <router-view class="col-8 content" :updater="key"> </router-view>
+    <router-view class="col-8 content" @reload-header="onReloadHeader">
+    </router-view>
   </div>
 </template>
 
@@ -14,11 +15,11 @@ export default {
   components: { Nav, Header },
   setup() {
     const key = ref(true);
-    const onUpdate = () => {
+    const onReloadHeader = () => {
       key.value = !key.value;
     };
 
-    return { key, onUpdate };
+    return { key, onReloadHeader };
   }
 };
 </script>
