@@ -40,6 +40,7 @@ import TextEditor from "@/components/TextEditor.vue"; // @ is an alias to /src
 import Button from "@/components/button.vue";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import store from "@/store";
 
 export default {
   name: "PostsOverview",
@@ -55,7 +56,7 @@ export default {
     // Handles a post
     const post: any = ref(null);
     const getPost = async () => {
-      const temp = await Post.get(route.params.postName);
+      const temp = await Post.get(route.params.postName, store.getters.blog.id);
       post.value = temp;
       headerContainsContent.value = post.value.header.length !== 0;
     };
