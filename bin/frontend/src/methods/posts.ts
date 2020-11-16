@@ -4,7 +4,7 @@ class Post {
   private _body: any;
   private _authorId: number;
   private _time: Date;
-  private _name: string;
+  private _name: string | string[];
   private _blogId: number;
   private _parent: number | null;
 
@@ -68,12 +68,15 @@ class Post {
     this._time = input;
   }
 
-  public get name(): string {
+  public get name(): string | string[]{
     return this._name;
   }
 
-  public set name(input: string) {
-    input = input.replace(/([^a-zA-Z0-9_])+/g, "_").toLowerCase();
+  public set name(input: string | string[]) {
+    input = input
+      .toString()
+      .replace(/([^a-zA-Z0-9_])+/g, "_")
+      .toLowerCase();
     this._name = input;
   }
 
@@ -166,6 +169,30 @@ class Post {
     const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
     const temp = await fetch(`${baseUrl}:9292/api/blogs/${this._blogId}/posts`, {
         method: "POST",
+        body: JSON.stringify(data)
+      }
+    );
+    await temp.text();
+    return temp.status;
+  }
+
+  async update() {
+    const data = {
+      header: this._header,
+      postStatus: this._status,
+      body: JSON.stringify(this._body),
+      blogId: this._blogId,
+      authorId: this._authorId,
+      time: this._time,
+      postName: this._name,
+      postParent: this._parent
+    };
+    console.log("Article data", data);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const temp = await fetch(
+      `${baseUrl}:9292/api/blogs/${this._blogId}/posts/${this._name}`,
+      {
+        method: "PUT",
         body: JSON.stringify(data)
       }
     );

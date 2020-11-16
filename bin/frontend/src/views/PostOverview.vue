@@ -71,10 +71,31 @@ export default {
       console.log("Save in progress");
     }
 
-    function updatePost(data: any) {
-      // Make a request to the CMS API
-      console.log("This should update");
-      saveInProgress.value = false;
+    async function updatePost(outputData: any) {
+      const post = new Post();
+      console.log(outputData.blocks)
+      post.blogId = store.getters.blog.id;
+      post.header = outputData.header;
+      post.time = new Date();
+      post.authorId = 1;
+      post.status = "published";
+      post.name = route.params.postName;
+      post.body = outputData.blocks;
+      try {
+        if ((await post.update()) === 200) {
+          saveInProgress.value = false;
+          router.push({
+            name: "Posts Overview",
+            params: { postName: post.name }
+          });
+        } else {
+          saveInProgress.value = false;
+          alert("5005 Unable to update post. Please try again.");
+        }
+      } catch {
+        saveInProgress.value = false;
+        alert("5006 Unable to update post. Please try again.");
+      }
     }
 
     async function deletePost() {

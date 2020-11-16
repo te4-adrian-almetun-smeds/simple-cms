@@ -66,9 +66,12 @@ class Server < Sinatra::Base
         end
 
         put '/:post_name/?' do
-          # TODO: Get the existing post and update it based on the id
-          temp = Posts.new(params)
+          x = JSON.parse(request.body.read)
+          old = Posts.fetch_where({ postName: params["post_name"], blogId: params["blog_id"] }, true)
+          temp = Posts.new(x)
+          temp.id = old.first.id
           temp.save
+          halt 200
         end
 
         delete '/:post_name/?' do
