@@ -73,7 +73,7 @@ class Post {
   }
 
   public set name(input: string) {
-    input = input.replace(/\W+/, "_");
+    input = input.replace(/([^a-zA-Z0-9_])+/g, "_").toLowerCase();
     this._name = input;
   }
 
@@ -88,11 +88,14 @@ class Post {
     this._parent = null;
   }
 
-  public static async get(name: string | string[]) {
+  public static async get(name: string | string[], blogId: number) {
     const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
-    const temp = await fetch(`${baseUrl}:9292/api/blogs/1/posts/${name}`);
+    const temp = await fetch(
+      `${baseUrl}:9292/api/blogs/${blogId}/posts/${name}`
+    );
     const elements = await temp.json();
     const x = new Post();
+    console.log("Elements", elements)
     x.setData(elements[0]);
     return x;
   }
@@ -113,6 +116,7 @@ class Post {
   }
 
   public setData(attributes: Record<string, any>) {
+    console.log(attributes);
     Object.keys(attributes).forEach((key) => {
       const value = attributes[key]
       switch (key) {
@@ -136,6 +140,9 @@ class Post {
           break;
         case "postName":
           this.name = value;
+          break;
+        case "postParent":
+          this.parent = value;
           break;
         default:
           console.log(key)
