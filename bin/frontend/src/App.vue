@@ -2,7 +2,11 @@
   <Header :key="key" @update="onUpdate" />
   <div class="row">
     <Nav class="col-4" />
-    <router-view :key="key2" class="col-8 content" @reload-header="onReloadHeader">
+    <router-view
+      :key="key2"
+      class="col-8 content"
+      @reload-header="onReloadHeader"
+    >
     </router-view>
   </div>
 </template>
