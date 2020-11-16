@@ -1,8 +1,8 @@
 <template>
-  <Header :key="key" />
+  <Header :key="key" @update="onUpdate" />
   <div class="row">
     <Nav class="col-4" />
-    <router-view class="col-8 content" @reload-header="onReloadHeader">
+    <router-view :key="key2" class="col-8 content" @reload-header="onReloadHeader">
     </router-view>
   </div>
 </template>
@@ -11,15 +11,25 @@
 import Nav from "./components/nav.vue";
 import Header from "./components/Header.vue";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
+
 export default {
   components: { Nav, Header },
   setup() {
+    const route = useRoute();
     const key = ref(true);
+    const key2 = ref(true);
     const onReloadHeader = () => {
       key.value = !key.value;
     };
 
-    return { key, onReloadHeader };
+    const onUpdate = () => {
+      if (!route.path.includes("/new")) {
+        key2.value = !key2.value;
+      }
+    };
+
+    return { key, key2, onUpdate, onReloadHeader };
   }
 };
 </script>
